@@ -1,0 +1,24 @@
+services:
+
+  postgresql_master13:
+    image: postgres
+    container_name: postgresql_master13
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgresql_master13/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: replication
+
+  postgresql_replica13:
+    image: postgres
+    container_name: postgresql_replica13
+    restart: always
+    ports:
+      - '5432'
+    volumes:
+      - ./postgresql_replica13/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: root

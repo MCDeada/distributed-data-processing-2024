@@ -1,0 +1,18 @@
+docker-compose up -d
+docker exec -it namenode bash
+hdfs dfs -mkdir -p /user/root
+hdfs dfs -ls /
+exit
+docker cp hadoop-mapreduce-examples-2.7.1-sources.jar namenode:/tmp/
+echo "Hello World" >f1.txt
+docker cp f1.txt namenode:/tmp/
+docker exec -it namenode bash
+cd tmp
+hdfs dfs -mkdir /user/root/input
+Через редактор в докере, добавляю в f1.txt строки:
+"Hello Docker"
+"Hello Hadoop"
+"Hello MapReduce"
+hdfs dfs -put f1.txt /user/root/input
+hadoop jar hadoop-mapreduce-examples-2.7.1-sources.jar org.apache.hadoop.examples.WordCount input output
+hdfs dfs -text /user/root/output/part-r-00000
